@@ -1,0 +1,107 @@
+extends layout
+
+block content
+ .container
+    .row
+        .col-md-6
+            table.table.table-bordered.table-hover#danger
+                thead
+                    tr
+                        td(colspan="4") Dangers
+                tbody
+        .col-md-6
+            table.table.table-bordered.table-hover#warning
+                thead
+                    tr
+                        td(colspan="4") Warnings
+                tbody
+              
+
+ script(src='http://code.jquery.com/jquery-1.2.1.min.js')
+ script(src="http://momentjs.com/downloads/moment.js")
+ script.
+    function callHsmInfoMessages(pollUrl){
+        var dangerEnd = {};
+        var warningEnd = {};
+        $.ajax({
+            url : pollUrl,
+            type : 'GET',
+            dataType: "json",
+            success : function (data) {
+
+                if(data.message === 'success'){
+                    console.log(data.size);
+                    var dangers = 0;
+                    var warnings = 0;
+                    $.each(data.data, function(i, obj) {
+                        //- console.log(obj);
+                        //- console.log(serverId);
+                        var serverId=1; //TEST
+                        if(obj.hsmServerId == serverId){
+                            if(obj.messagetype === "danger") {
+                                dangers++;
+                                dangerEnd = obj;
+                                //$("#danger").append(obj.message + "<br>");
+                                //updateMessagesTable("table1", obj, '/link/wiki', 'ver más', 10);//Funcion de Miztli
+                            } else if (obj.messagetype === "warning") {
+                                warnings++;
+                                warningEnd = obj;
+                                //$("#warning").append(obj.message + "<br>");
+                                //updateMessagesTable("table2", obj, '/link/wiki', 'ver más', 10);//Funcion de Miztli
+                            }   
+                        }else{
+                            //console.log('Este mensaje es de otro server');
+                        }
+                               
+                    });
+
+                    //Se obtinene conjuntos
+                    updateMessagesTableAll("danger", dangerEnd, "/hola", "mess", dangers, 16);
+                    updateMessagesTableAll("warning", warningEnd, "/hola", "mess", warnings, 16);
+
+                    
+                }
+
+                //callHsmInfoMessages(pollUrl);//Para efectos del test no se manda a llamar a si mismo
+            },
+            error: function (error) {
+                console.log("Error during polling: "+error);
+            }
+        });
+    }
+
+    function updateMessagesTableAll(id, data, ref, ref_mess, arrSize, size){
+        //console.log( $('#'+id+' tbody tr').length);
+        var sizetable = $('#'+id+' tbody tr').length;
+        console.log("sizetable - "+sizetable);        
+        if(sizetable === 0){
+            $("#"+id+" tbody").append('<tr><td><span class="label label-'+id+'">'+id+'</span></td><td colspan="2">'+moment(data.operationdate,'DD-MM-YYYY h:mm:ss').format('DD/MM/YYYY h:mm:ss A')+'</td><td><span class="badge">'+arrSize+'</span></td></tr>');
+
+            $("#"+id+" tbody").append('<tr><td></td><td>'+data.message+'</td><td>'+moment(data.operationdate,'DD-MM-YYYY h:mm:ss').format('DD/MM/YYYY h:mm:ss A')+'</td><td><a href="'+ref+'">Ver bloque</a></td></tr>');
+        }else{
+          if (sizetable<size){
+            $("#"+id+" tbody tr:first").before('<tr><td></td><td>'+data.message+'</td><td>'+moment(data.operationdate,'DD-MM-YYYY h:mm:ss').format('DD/MM/YYYY h:mm:ss A')+'</td><td><a href="'+ref+'">Ver bloque</a></td></tr>');
+
+
+            $("#"+id+" tbody tr:first").before('<tr><td><span class="label label-'+id+'">'+id+'</span></td><td colspan="2">'+moment(data.operationdate,'DD-MM-YYYY h:mm:ss').format('DD/MM/YYYY h:mm:ss A')+'</td><td><span class="badge">'+arrSize+'</span></td></tr>');
+
+            
+          }else{
+            $('#'+id+" tbody tr:last").remove();
+            $('#'+id+" tbody tr:last").remove();
+            $("#"+id+" tbody tr:first").before('<tr><td></td><td>'+data.message+'</td><td>'+moment(data.operationdate,'DD-MM-YYYY h:mm:ss').format('DD/MM/YYYY h:mm:ss A')+'</td><td><a href="'+ref+'">Ver bloque</a></td></tr>');
+
+
+            $("#"+id+" tbody tr:first").before('<tr><td><span class="label label-'+id+'">'+id+'</span></td><td colspan="2">'+moment(data.operationdate,'DD-MM-YYYY h:mm:ss').format('DD/MM/YYYY h:mm:ss A')+'</td><td><span class="badge">'+arrSize+'</span></td></tr>');
+            
+          }
+        }
+    }
+
+
+    //Esto lo ejecuta Miztli. Pero se simula que se hace una petición cada 4 segundos
+    setInterval(function(){
+        callHsmInfoMessages('/pollUrl');
+        //- console.log("hola")
+    }, 4000);
+    
