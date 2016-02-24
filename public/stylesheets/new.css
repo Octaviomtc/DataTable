@@ -48,7 +48,47 @@ li:hover{
 }
 
 
-.unread{
+.read-warning{
+    float: right;
+    color: #ffffff;
+    background: #FFC676;
+    width: 3em;
+    border-radius: 60%;
+    font-size: 0.80em;
+    line-height: 3;
+    text-align: center;
+}
+
+
+
+.unread-warning{
+    float: right;
+    color: #ffffff;
+    background: #f0ad4e;
+    width: 3em;
+    border-radius: 60%;
+    font-size: 0.80em;
+    line-height: 3;
+    text-align: center;
+    animation: notificationpulsewar 1s infinite;
+    -webkit-animation: notificationpulsewar 1s infinite;
+    -moz-animation: notificationpulsewar 1s infinite;
+}
+
+.read-danger{
+    float: right;
+    color: #ffffff;
+    background: #F66758;
+    width: 3em;
+    border-radius: 60%;
+    font-size: 0.80em;
+    line-height: 3;
+    text-align: center;
+}
+
+
+
+.unread-danger{
     float: right;
     color: #ffffff;
     background: #e74c3c;
@@ -61,6 +101,8 @@ li:hover{
     -webkit-animation: notificationpulse 1s infinite;
     -moz-animation: notificationpulse 1s infinite;
 }
+
+
 /*the animations */
 @keyframes notificationpulse {
   0% {
@@ -112,6 +154,63 @@ li:hover{
   }
   100% {
     box-shadow: 0 0 0 0.15em #c0392b;
+  }
+}
+
+
+
+
+
+@keyframes notificationpulsewar {
+  0% {
+    box-shadow: 0 0 0 0.00em #FEBD2E;
+  }
+  25% {
+    box-shadow: 0 0 0 0.25em #FEBD2E;
+  }
+  50% {
+    box-shadow: 0 0 0 0.50em #FEBD2E;
+  }
+  75% {
+    box-shadow: 0 0 0 0.25em #FEBD2E;
+  }
+  100% {
+    box-shadow: 0 0 0 0.15em #FEBD2E;
+  }
+}
+@-webkit-keyframes notificationpulsewar {
+  0% {
+    box-shadow: 0 0 0 0.00em #FEBD2E;
+  }
+  25% {
+    box-shadow: 0 0 0 0.25em #FEBD2E;
+  }
+  50% {
+    box-shadow: 0 0 0 0.50em #FEBD2E;
+  }
+  75% {
+    box-shadow: 0 0 0 0.25em #FEBD2E;
+  }
+  100% {
+    box-shadow: 0 0 0 0.15em #FEBD2E;
+  }
+}
+
+@-moz-keyframes notificationpulsewar {
+  0% {
+    box-shadow: 0 0 0 0.00em #FEBD2E;
+  }
+  25% {
+    box-shadow: 0 0 0 0.25em #FEBD2E;
+  }
+  50% {
+    box-shadow: 0 0 0 0.50em #FEBD2E;
+  }
+  75% {
+    box-shadow: 0 0 0 0.25em #FEBD2E;
+  }
+  100% {
+    box-shadow: 0 0 0 0.15em #FEBD2E;
   }
 }
 

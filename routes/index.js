@@ -37,7 +37,6 @@ router.get('/pollUrl', function(req, res, next) {
 
 	var response = {
 	  "message": "success",
-	  "size": random,
 	  "data": data
 	}
 	res.json(response);
