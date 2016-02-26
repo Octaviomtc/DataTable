@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 router.get('/pollUrl', function(req, res, next) {
 
 	//random
-	var random =  Math.floor((Math.random() * 1000) + 1);
+	var random =  Math.floor((Math.random() * 200) + 1);
 	var data = [];
 
 
@@ -33,7 +33,11 @@ router.get('/pollUrl', function(req, res, next) {
 	}
 
 
-	console.log(data);
+	console.log(_.where(data,{messagetype:"warning"}));
+	console.log(_.where(data,{messagetype:"danger"}));
+
+
+
 
 	var response = {
 	  "message": "success",
